@@ -16,26 +16,26 @@ router.get('/', (req, res) => {
       res.render('login');
     });
 
-router.get('/blog', withAuth, async (req, res) => {
-  try {
-    // Get all the posts from the Post table, including the associated user
-    const posts = await Post.findAll({ include: User });
-
-    // Render the blog page with the posts as bootstrap cards
-    res.render('blogpage', { 
-      posts: posts.map(post => ({
-        id: post.id,
-        textContent: post.textContent,
-        date: post.date,
-        time: post.time,
-        userName: post.User.name
-      }))
+    router.get('/blog', withAuth, async (req, res) => {
+      try {
+        // Get all the posts from the Post table, including the associated user
+        const posts = await Post.findAll({ include: User });
+    
+        // Render the blog page with the posts as bootstrap cards
+        res.render('blogpage', { 
+          posts: posts.map(post => ({
+            id: post.id,
+            textContent: post.textContent,
+            date: post.date,
+            time: post.time,
+            userName: post.User?.name
+          }))
+        });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+      }
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
-  }
-});
 
 router.post('/blog', withAuth, async (req, res) => {
   try {

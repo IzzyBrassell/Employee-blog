@@ -17,8 +17,8 @@ const posts = [
   ];
 
   const postSeed = async () => {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     await Post.bulkCreate(posts);
   };
 
-  module.exports = postSeed()
+  module.exports = postSeed;
